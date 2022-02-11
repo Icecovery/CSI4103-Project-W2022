@@ -1,0 +1,5 @@
+# Custom Dictionary Words
+Brachiograph
+imread
+imshow
+numpy
