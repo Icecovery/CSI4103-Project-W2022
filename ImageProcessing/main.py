@@ -1,6 +1,7 @@
 import math
 import cv2 as cv
 import numpy as np
+import os
 
 # main function definition
 def main():
@@ -60,8 +61,25 @@ def main():
 
 	cv.imshow("lines", lineImg)
 
-	# wait for key press to exit
+	# wait for key press
 	cv.waitKey()
+
+	# export line coordinates
+	ans = input("Export path? (y/n): ")
+	if (ans.lower() == "y"):
+		ExportPath(lineSegments)
+
+def ExportPath(lineSegments):
+	# create temp folder
+	if not os.path.exists('../Temp'):
+		os.makedirs('../Temp')
+
+	# write lines
+	file = open("../Temp/path.csv", "w")
+	for i in range(len(lineSegments)):
+		l = lineSegments[i][0]
+		file.write(str(l[0]) + "," + str(l[1]) + "," + str(l[2]) + "," + str(l[3]) + "\n")
+	file.close()
 
 # main program entry point
 if __name__ == "__main__":
