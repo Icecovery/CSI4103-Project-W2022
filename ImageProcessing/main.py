@@ -1,86 +1,53 @@
-import math
+import argparse
 import cv2 as cv
 import numpy as np
 import os
-
-# main function definition
-def main():
-	# Parameters
-
-	p_BlurRadius = 21
-	p_Threshold1 = 60
-	p_Threshold2 = 10
-	p_ApertureSize = 3
-	p_Threshold3 = 8
-	p_MinLineLength = 5
-	p_MaxLineGap = 5
-	p_Rho = 1
-	p_Theta = np.pi / 180
-
-	# ===================
-
-	# read raw
-	inputImg = cv.imread("input.png")
-	cv.imshow("input raw", inputImg)
-
-	#get image parameters
-	height = inputImg.shape[0]
-	width = inputImg.shape[1]
-
-	# turn gray scale
-	grayImg = cv.cvtColor(inputImg, cv.COLOR_RGB2GRAY)
-	cv.imshow("gray scale", grayImg)
-
-	# blur 
-	if p_BlurRadius % 2 == 0:
-		p_BlurRadius += 1 # blur radius must be odd
-		print("p_BlurRadius must be odd!")
-		
-	blurImg = cv.GaussianBlur(grayImg, (p_BlurRadius, p_BlurRadius), 0)
-	cv.imshow("blurred", blurImg)
-	
-	# canny edge detection
-	if p_ApertureSize % 2 == 0:
-		p_ApertureSize += 1  # aperture size must be odd
-		print("p_ApertureSize must be odd!")
-		
-	cannyImg = cv.Canny(blurImg, p_Threshold1, p_Threshold2, apertureSize=p_ApertureSize)
-	cv.imshow("canny edge", cannyImg)
-
-	# trace lines
-	lineSegments = cv.HoughLinesP(cannyImg, p_Rho, p_Theta, p_Threshold3, minLineLength=p_MinLineLength, maxLineGap=p_MaxLineGap)
-	
-	# create new blank image
-	lineImg = np.zeros(inputImg.shape, np.uint8)
-	
-	# draw lines to image
-	if lineSegments is not None:
-		for i in range(0, len(lineSegments)):
-			l = lineSegments[i][0]
-			cv.line(lineImg, (l[0], l[1]), (l[2], l[3]), (0, 255, 0), 1, cv.LINE_AA)
-
-	cv.imshow("lines", lineImg)
-
-	# wait for key press
-	cv.waitKey()
-
-	# export line coordinates
-	ans = input("Export path? (y/n): ")
-	if (ans.lower() == "y"):
-		ExportPath(lineSegments)
-
-def ExportPath(lineSegments):
-	# create temp folder
-	if not os.path.exists('../Temp'):
-		os.makedirs('../Temp')
-
-	# write lines
-	file = open("../Temp/path.csv", "w")
-	for i in range(len(lineSegments)):
-		l = lineSegments[i][0]
-		file.write(str(l[0]) + "," + str(l[1]) + "," + str(l[2]) + "," + str(l[3]) + "\n")
-	file.close()
+import image_converter
 
 # main program entry point
 if __name__ == "__main__":
-	main()
+	# parse the command-line args
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--debug", dest="debug", action="store_true", help="Enable debug outputs.")
+	parser.set_defaults(debug=False)
+	parser.add_argument("--src_img_path", required=True, dest="src_img_path", action="store", type=str, help="Path to the source image")
+	cmd_args = parser.parse_args()
+	
+	# read the source image
+	src_img = cv.imread(cmd_args.src_img_path)
+	image_converter_args = ImageConverterArgs(
+		blur_radius=21,
+		canny_threshold_1=60,
+		canny_threshold_2=10,
+		hough_threshold=8,
+		aperture_size=3,
+		min_line_length=5,
+		max_line_gap=5,
+		rho=1,
+		theta=np.pi/180
+	)
+
+	# convert the source image
+	image_converter = ImageConverter(src_img, image_converter_args, cmd_args.debug)
+	image_converter.convert()
+
+	if cmd_args.debug:
+		cv.waitKey()
+    
+  
+	# export line coordinates
+	#if (input("Export path? (y/n): ").lower() == "y"):
+	#	ExportPath(lineSegments)
+
+  def ExportPath(lineSegments):
+	  # create temp folder
+	  if not os.path.exists('../Temp'):
+		  os.makedirs('../Temp')
+
+	  # write lines
+	  file = open("../Temp/path.csv", "w")
+	  for i in range(len(lineSegments)):
+		  l = lineSegments[i][0]
+		  file.write(str(l[0]) + "," + str(l[1]) + "," + str(l[2]) + "," + str(l[3]) + "\n")
+
+    file.close()
