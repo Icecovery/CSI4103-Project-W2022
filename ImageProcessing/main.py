@@ -4,10 +4,6 @@ import numpy as np
 
 from image_converter import *
 
-# main function definition
-def main():
-	pass
-
 # main program entry point
 if __name__ == "__main__":
 	# parse the command-line args
