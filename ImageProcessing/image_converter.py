@@ -1,4 +1,3 @@
-import imp
 import cv2 as cv
 import numpy as np
 
@@ -50,13 +49,13 @@ class ImageConverter:
         # from src_img to gray_scale_img
         gray_scale_img = cv.cvtColor(self.src_img, cv.COLOR_RGB2GRAY)
         if self.debug:
-            cv.imshow(gray_scale_img)
+            cv.imshow("gray_scale_img", gray_scale_img)
         
         # from gray_scale_img to blur_img
         gaussian_kernal_size = (self.args.blur_radius, self.args.blur_radius)
         blur_img = cv.GaussianBlur(gray_scale_img, gaussian_kernal_size, 0)
         if self.debug:
-            cv.imshow(blur_img)
+            cv.imshow("blur_img", blur_img)
         
         # use canny edge detection to dectect edges in blur_img
         canny_img = cv.Canny(blur_img,
@@ -64,7 +63,7 @@ class ImageConverter:
                              self.args.canny_threshold_2,
                              apertureSize=self.args.aperture_size)
         if self.debug:
-            cv.imshow(canny_img)
+            cv.imshow("canny_img", canny_img)
         
         # get line segments from canny_img
         line_segs = cv.HoughLinesP(canny_img, self.args.rho, self.args.theta,
@@ -86,7 +85,7 @@ class ImageConverter:
                 cv.line(res_img, seg_list[i]["start"], seg_list[i]["end"],
                         line_color, 1, cv.LINE_AA)
         if self.debug:
-            cv.imshow(res_img)
+            cv.imshow("res_img", res_img)
             print(seg_list)
         
         return seg_list
