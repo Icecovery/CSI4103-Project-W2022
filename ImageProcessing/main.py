@@ -1,7 +1,6 @@
 import argparse
 import cv2 as cv
 import numpy as np
-import os
 from image_converter import *
 
 # main program entry point
@@ -33,21 +32,3 @@ if __name__ == "__main__":
 
 	if cmd_args.debug:
 		cv.waitKey()
-    
-  
-	# export line coordinates
-	#if (input("Export path? (y/n): ").lower() == "y"):
-	#	ExportPath(lineSegments)
-
-def ExportPath(lineSegments):
-	# create temp folder
-	if not os.path.exists('../Temp'):
-		os.makedirs('../Temp')
-
-	# write lines
-	file = open("../Temp/path.csv", "w")
-	for i in range(len(lineSegments)):
-		l = lineSegments[i][0]
-		file.write(str(l[0]) + "," + str(l[1]) + "," + str(l[2]) + "," + str(l[3]) + "\n")
-
-	file.close()
