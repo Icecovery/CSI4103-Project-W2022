@@ -1,3 +1,4 @@
+from time import sleep
 import cv2 as cv
 import numpy as np
 
@@ -73,6 +74,7 @@ class ImageConverter:
 		lines = []
 		# draw line segments to the result image
 		res_img = np.zeros(self.src_img.shape, np.uint8)
+
 		line_color = (0, 255, 0)
 		if lineSegments is not None:
 			for i in range(0, len(lineSegments)):
@@ -85,5 +87,5 @@ class ImageConverter:
 
 		if self.debug:
 			cv.imshow("res_img", res_img)
-		
+
 		return lines

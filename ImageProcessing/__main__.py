@@ -2,6 +2,7 @@ import argparse
 import cv2 as cv
 import numpy as np
 from image_converter import *
+from path_optimizer import *
 
 # main program entry point
 if __name__ == "__main__":
@@ -15,7 +16,7 @@ if __name__ == "__main__":
 	# read the source image
 	src_img = cv.imread(cmd_args.src_img_path)
 	image_converter_args = ImageConverterArgs(
-		blur_radius=21,
+		blur_radius=5,
 		canny_threshold_1=60,
 		canny_threshold_2=10,
 		hough_threshold=8,
@@ -28,7 +29,10 @@ if __name__ == "__main__":
 
 	# convert the source image
 	image_converter = ImageConverter(src_img, image_converter_args, cmd_args.debug)
-	image_converter.convert()
+	segments = image_converter.convert()
 
+	optimizer = PathOptimizer()
+	optimizedSegments = optimizer.Optimize(segments, debug=True, shape=src_img.shape)
+	
 	if cmd_args.debug:
 		cv.waitKey()
