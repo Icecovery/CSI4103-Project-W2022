@@ -2,31 +2,32 @@ import argparse
 import os
 import cv2 as cv
 import numpy as np
+from parso import parse
 from image_converter import *
 from path_optimizer import *
 
-def ExportPath(l):
-	ans = input("Export path? (y/n): ")
-	if (ans.lower() != "y"):
-		return None
+def export_path_csv(l):
+	EXPORT_DIR = "Temp"
+	EXPORT_FILE_NAME = "path.csv"
+	FULL_EXPORT_FILE_PATH = os.path.join(EXPORT_DIR, EXPORT_FILE_NAME)
 
 	# create temp folder
-	if not os.path.exists('Temp'):
-		os.makedirs('Temp')
+	if not os.path.exists(EXPORT_DIR):
+		os.makedirs(EXPORT_DIR)
 
-	# write lines
-	file = open("Temp/path.csv", "w")
-	for i in range(len(l)):
-		line = str(l[i][0][0]) + "," + str(l[i][0][1]) + "," + str(l[i][1][0]) + "," + str(l[i][1][1]) + "\n"
-		file.write(line)
-	file.close()
+	with open(FULL_EXPORT_FILE_PATH, "w") as file:
+		for i in range(len(l)):
+			line = str(l[i][0][0]) + "," + str(l[i][0][1]) + "," + str(l[i][1][0]) + "," + str(l[i][1][1]) + "\n"
+			file.write(line)
 
 def Main():
 	# parse the command-line args
 	parser = argparse.ArgumentParser()
-	parser.add_argument("--debug", dest="debug", action="store_true", help="Enable debug outputs.")
+	parser.add_argument("--debug",
+						dest="debug", action="store_true", help="Enable debug outputs.")
+	parser.add_argument("-s", "--src_img_path",
+						required=True, dest="src_img_path", action="store", type=str, help="Path to the source image")
 	parser.set_defaults(debug=False)
-	parser.add_argument("--src_img_path", required=True, dest="src_img_path", action="store", type=str, help="Path to the source image")
 	cmd_args = parser.parse_args()
 	
 	# read the source image
@@ -47,13 +48,12 @@ def Main():
 	image_converter = ImageConverter(src_img, image_converter_args, cmd_args.debug)
 	segments = image_converter.convert()
 
+	# optimize the moving path
 	optimizer = PathOptimizer()
-	optimizedSegments = optimizer.Optimize(segments, debug=True, shape=src_img.shape)
-	
-	# export line coordinates
-	ExportPath(optimizedSegments)
+	optimizedSegments = optimizer.optimize(segments, debug=True, shape=src_img.shape)
 
 	if cmd_args.debug:
+		export_path_csv(optimizedSegments)
 		cv.waitKey()
 
 # main program entry point
