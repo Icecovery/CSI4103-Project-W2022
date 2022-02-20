@@ -71,10 +71,9 @@ class ImageConverter:
 									minLineLength=self.args.min_line_length,
 									maxLineGap=self.args.max_line_gap)
 		
-		lines = []
 		# draw line segments to the result image
+		lines = []
 		res_img = np.zeros(self.src_img.shape, np.uint8)
-
 		line_color = (0, 255, 0)
 		if line_segments is not None:
 			for i in range(0, len(line_segments)):
