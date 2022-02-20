@@ -66,7 +66,7 @@ class ImageConverter:
 			cv.imshow("canny_img", canny_img)
 		
 		# get line segments from canny_img
-		lineSegments = cv.HoughLinesP(canny_img, self.args.rho, self.args.theta,
+		line_segments = cv.HoughLinesP(canny_img, self.args.rho, self.args.theta,
 									self.args.hough_threshold,
 									minLineLength=self.args.min_line_length,
 									maxLineGap=self.args.max_line_gap)
@@ -76,13 +76,11 @@ class ImageConverter:
 		res_img = np.zeros(self.src_img.shape, np.uint8)
 
 		line_color = (0, 255, 0)
-		if lineSegments is not None:
-			for i in range(0, len(lineSegments)):
-				p1 = (lineSegments[i][0][0], lineSegments[i][0][1])
-				p2 = (lineSegments[i][0][2], lineSegments[i][0][3])
-				line = (p1, p2)
-				lines.append(line)
-
+		if line_segments is not None:
+			for i in range(0, len(line_segments)):
+				p1 = (line_segments[i][0][0], line_segments[i][0][1])
+				p2 = (line_segments[i][0][2], line_segments[i][0][3])
+				lines.append((p1, p2))
 				cv.line(res_img, p1, p2, line_color, 1, cv.LINE_AA)
 
 		if self.debug:

@@ -50,7 +50,7 @@ def main():
 
 	# optimize the moving path
 	optimizer = PathOptimizer()
-	optimized_segments = optimizer.optimize(segments, debug=True, shape=src_img.shape)
+	optimized_segments = optimizer.optimize(segments, debug=cmd_args.debug, shape=src_img.shape)
 
 	if cmd_args.debug:
 		export_path_csv(optimized_segments)
