@@ -20,7 +20,7 @@ def export_path_csv(l):
 			line = str(l[i][0][0]) + "," + str(l[i][0][1]) + "," + str(l[i][1][0]) + "," + str(l[i][1][1]) + "\n"
 			file.write(line)
 
-def Main():
+def main():
 	# parse the command-line args
 	parser = argparse.ArgumentParser()
 	parser.add_argument("--debug",
@@ -50,12 +50,12 @@ def Main():
 
 	# optimize the moving path
 	optimizer = PathOptimizer()
-	optimizedSegments = optimizer.optimize(segments, debug=True, shape=src_img.shape)
+	optimized_segments = optimizer.optimize(segments, debug=True, shape=src_img.shape)
 
 	if cmd_args.debug:
-		export_path_csv(optimizedSegments)
+		export_path_csv(optimized_segments)
 		cv.waitKey()
 
 # main program entry point
 if __name__ == "__main__":
-	Main()
+	main()
