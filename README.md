@@ -21,7 +21,7 @@ This project is still WIP.
 ### ImageProcessing
 
 #### Description
-	
+
 - Image Processing Program that converts input image to list of lines
 
 #### Language
@@ -42,10 +42,24 @@ This project is still WIP.
 
 - Run `python3 main.py`
 
+### InverseKinematics
+
+#### Description
+
+- Converts output from ImageProcessing to angles instead of points
+
+#### Language
+
+- Python
+
+#### Usage
+
+- Example usage: `python __main__.py -la 5 -lb 5 -s example-input.csv --debug`
+
 ### InverseKinematicsDemo
 
 #### Description
-	
+
 - A demo program of the inverse kinematics equations that are going to be used in the project.
 
 - Also useful to find out the length and other parameters of the arm.

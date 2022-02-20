@@ -1,9 +1,22 @@
 import argparse
 import csv
 import math
+import os
 
 lines = [] # input
 angles = [] # output
+
+def export_path_csv(l):
+    EXPORT_DIR = "Temp"
+    EXPORT_FILE_NAME = "angles.csv"
+    FULL_EXPORT_FILE_PATH = os.path.join(EXPORT_DIR, EXPORT_FILE_NAME)
+    # create temp folder
+    if not os.path.exists(EXPORT_DIR):
+        os.makedirs(EXPORT_DIR)
+    with open(FULL_EXPORT_FILE_PATH, "w") as file:
+        for i in range(len(l)):
+            line = str(l[i][0]) + "," + str(l[i][1]) + "," + str(l[i][2]) + "," + str(l[i][3]) + "\n"
+            file.write(line)
 
 def main():
     # parse the command-line args
@@ -11,9 +24,9 @@ def main():
     parser.add_argument("--debug", dest="debug", action="store_true",
                         help="Enable debug outputs.")
     parser.add_argument("-la", dest="la", required=True, action="store",
-                        type=float, help="Length of arm A (servo 1 to servo 2) in mm")
+                        type=float, help="Length of arm A (servo 1 to servo 2)")
     parser.add_argument("-lb", dest="lb", required=True, action="store",
-                        type=float, help="Length of arm B (servo 2 to servo pen) in mm")
+                        type=float, help="Length of arm B (servo 2 to servo pen)")
     parser.add_argument("-s", "--src_csv_path", required=True, dest="src_csv_path",
                         action="store", type=str, help="Path to the source csv file")
     parser.set_defaults(debug=False)
@@ -58,6 +71,9 @@ def main():
         angle.append(angle_b2)
 
         angles.append(angle)
+
+    if cmd_args.debug:
+        export_path_csv(angles)
 
 # main program entry point
 if __name__ == "__main__":
