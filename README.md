@@ -34,6 +34,10 @@ This project is still WIP.
 
 	- [numpy](https://pypi.org/project/numpy/) (dependency)
 
+#### Installation
+
+- Run `pip install -r requirements.txt`
+
 #### Usage
 
 - Run `python3 main.py`
