@@ -4,8 +4,6 @@ A CSI4103 Project, University of Ottawa, Winter 2022.
 
 This project is still WIP.
 
----
-
 ## Team Members
 
 - Alexandre Pineau
@@ -17,8 +15,6 @@ This project is still WIP.
 - Rodger Retanal
 
 - Zitai Peng
-
----
 
 ## File Hierarchy
 
@@ -42,7 +38,21 @@ This project is still WIP.
 
 - Run `python3 main.py`
 
----
+### InverseKinematicsDemo
+
+#### Description
+	
+- A demo program of the inverse kinematics equations that are going to be used in the project.
+
+- Also useful to find out the length and other parameters of the arm.
+
+#### Language
+
+- Processing (Java)
+
+#### Usage
+
+- Run it using Processing IDE
 
 ## License
 
