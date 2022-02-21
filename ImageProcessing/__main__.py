@@ -5,6 +5,7 @@ import numpy as np
 from parso import parse
 from image_converter import *
 from path_optimizer import *
+from pixel_to_real_space_converter import *
 
 def export_path_csv(l):
 	EXPORT_DIR = "Temp"
@@ -52,8 +53,12 @@ def main():
 	optimizer = PathOptimizer()
 	optimized_segments = optimizer.optimize(segments, debug=cmd_args.debug, shape=src_img.shape)
 
+	# convert image to real space
+	pixel_to_real = PixelToRealSpaceConverter()
+	real_space_segments = pixel_to_real.convert(optimized_segments, (src_img.shape[0], src_img.shape[1]))
+
 	if cmd_args.debug:
-		export_path_csv(optimized_segments)
+		export_path_csv(real_space_segments)
 		cv.waitKey()
 
 # main program entry point

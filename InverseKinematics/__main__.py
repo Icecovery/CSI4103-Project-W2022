@@ -42,7 +42,7 @@ def main():
         for row in reader:
             i = 0
             while i < len(row): # convert vectors from str to int
-                row[i] = int(row[i])
+                row[i] = float(row[i])
                 i += 1
             lines.append(row)
 
