@@ -65,10 +65,10 @@ def main():
         angle_b2 = math.acos((math.sqrt(la) + math.sqrt(lb) - math.sqrt(ac)) / (2.0 * la * lb))
 
         angle = []
-        angle.append(angle_a1)
-        angle.append(angle_b1)
-        angle.append(angle_a2)
-        angle.append(angle_b2)
+        angle.append(math.degrees(angle_a1))
+        angle.append(math.degrees(angle_b1))
+        angle.append(math.degrees(angle_a2))
+        angle.append(math.degrees(angle_b2))
 
         angles.append(angle)
 
