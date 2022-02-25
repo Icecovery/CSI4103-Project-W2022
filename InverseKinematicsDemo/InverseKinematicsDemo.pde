@@ -6,7 +6,7 @@ PVector originPoint = new PVector(200, 100); // origin point of the paper
 PVector jointA = new PVector(150, 250); // origin point of the arm
 PVector jointB = new PVector(100, 100);
 PVector target = new PVector(200, 200);
-float La = 170; // length of arm a
+float La = 160; // length of arm a
 float Lb = 150; // length of arm b
 
 float angleA; // angle of the frist joint
