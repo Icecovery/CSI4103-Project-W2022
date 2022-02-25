@@ -72,6 +72,24 @@ This project is still WIP.
 
 - Run it using Processing IDE
 
+### Models
+
+#### Description
+
+- The 3D models used to design and print the physical arm
+
+#### File Types
+
+- `f3z`: Autodesk Fusion 360 Archive Files
+
+- `stl`: Standard Triangle Language
+
+#### Usage
+
+- Use Autodesk Fusion 360 to open the `f3z` type files to modify CAD steps
+
+- Use Any 3d model viewer to view `stl` type files, use any 3d printer slicer to slice the model and convert it to G code
+
 ## License
 
 MIT License
