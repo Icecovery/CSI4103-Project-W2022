@@ -29,6 +29,10 @@ def main():
 						type=float, help="Length of arm B (servo 2 to servo pen)")
 	parser.add_argument("-s", "--src_csv_path", required=True, dest="src_csv_path",
 						action="store", type=str, help="Path to the source csv file")
+	parser.add_argument("--offset_a", dest="offset_a", required=False, action="store", default=0.0,
+						type=float, help="Offset angle of servo A for the output")
+	parser.add_argument("--offset_b", dest="offset_b", required=False, action="store", default=0.0,
+						type=float, help="Offset angle of servo B for the output")
 	parser.set_defaults(debug=False)
 	cmd_args = parser.parse_args()
 
@@ -55,10 +59,10 @@ def main():
 		angle_a2, angle_b2 = coordinate_to_angle(line[2], line[3], la, lb)
 
 		angle = []
-		angle.append(math.degrees(angle_a1))
-		angle.append(math.degrees(angle_b1))
-		angle.append(math.degrees(angle_a2))
-		angle.append(math.degrees(angle_b2))
+		angle.append(math.degrees(angle_a1) + cmd_args.offset_a)
+		angle.append(math.degrees(angle_b1) + cmd_args.offset_b)
+		angle.append(math.degrees(angle_a2) + cmd_args.offset_a)
+		angle.append(math.degrees(angle_b2) + cmd_args.offset_b)
 
 		angles.append(angle)
 

@@ -1,9 +1,9 @@
-float sizeMult = 2.0; // size multiplier to make stuff easier to see
+float sizeMult = 1.5; // size multiplier to make stuff easier to see
 
-PVector pageSize = new PVector(210, 297);
+PVector pageSize = new PVector(216, 279);
 PVector originPoint = new PVector(200, 100); // origin point of the paper
 
-PVector jointA = new PVector(150, 250); // origin point of the arm
+PVector jointA = PVector.add(originPoint, new PVector(-50, pageSize.y/2)); // origin point of the arm
 PVector jointB = new PVector(100, 100);
 PVector target = new PVector(200, 200);
 float La = 160; // length of arm a
@@ -12,11 +12,14 @@ float Lb = 150; // length of arm b
 float angleA; // angle of the frist joint
 float angleB; // angle of the second joint
 
+float smallestA = Float.POSITIVE_INFINITY;
+float smallestB = Float.POSITIVE_INFINITY;
+
 ArrayList<PVector> points = new ArrayList<PVector>();
 
 void setup()
 {
-  size(1000, 1000);
+  size(800, 800);
 }
 
 void draw()
@@ -63,7 +66,11 @@ void draw()
   
   angleA = degrees(YAB);
   angleB = degrees(acos((sq(La) + sq(Lb) - sq(AC))/(2.0 * La * Lb)));
-  println("Angle A: " + angleA + " Angle B: " + angleB);
+  
+  smallestA = min(angleA, smallestA);
+  smallestB = min(angleB, smallestB);
+  
+  println("A " + angleA + " B " + angleB + " A min " + smallestA + " B min " + smallestB);
 }
 
 void drawPage()
