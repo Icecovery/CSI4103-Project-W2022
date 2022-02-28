@@ -18,6 +18,30 @@ This project is still WIP.
 
 ## File Hierarchy
 
+### HardwareControl
+
+#### Description
+
+- Code to control the actual hardware servos
+
+#### Language
+
+- Python
+
+#### Package Used
+
+- [gpiozero](https://pypi.org/project/gpiozero/)
+
+- [pigpio](https://pypi.org/project/pigpio/)
+
+#### Installation
+
+- Run `pip install -r requirements.txt`
+
+#### Usage
+
+- Run `python3 HardwareControl`
+
 ### ImageProcessing
 
 #### Description
@@ -40,7 +64,7 @@ This project is still WIP.
 
 #### Usage
 
-- Run `python3 main.py`
+- Run `python3 ImageProcessing`
 
 ### InverseKinematics
 
