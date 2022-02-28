@@ -1,5 +1,8 @@
 # Custom Dictionary Words
 Brachiograph
+GPIO
+gpiozero
 imread
 imshow
 numpy
+pigpio

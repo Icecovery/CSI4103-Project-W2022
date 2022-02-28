@@ -1,1 +1,2 @@
 -r ./ImageProcessing/requirements.txt
+-r ./HardwareControl/requirements.txt
