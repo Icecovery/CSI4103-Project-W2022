@@ -1,6 +1,10 @@
 # rsync command to sync to rpi
 rsync.sh
 
+# path
+
+path.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
