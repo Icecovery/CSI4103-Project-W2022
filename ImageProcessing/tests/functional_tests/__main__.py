@@ -1,11 +1,31 @@
 import argparse
 import os
 import cv2 as cv
-import numpy as np
-from parso import parse
-from image_converter import *
-from path_optimizer import *
-from pixel_to_real_space_converter import *
+import sys
+import importlib
+from pathlib import Path
+
+import sys
+from pathlib import Path
+
+def import_parents(level=1):
+    global __package__
+    file = Path(__file__).resolve()
+    parent, top = file.parent, file.parents[level]
+    
+    sys.path.append(str(top))
+    try:
+        sys.path.remove(str(parent))
+    except ValueError: # already removed
+        pass
+
+    __package__ = '.'.join(parent.parts[len(top.parts):])
+    importlib.import_module(__package__) # won't be needed after that
+
+import_parents(level=3) # N = 3
+
+from ...paper import Paper
+from ...image_processing import image_process
 
 def export_path_csv(l):
 	EXPORT_DIR = "Temp"
@@ -39,35 +59,14 @@ def main():
 	parser.set_defaults(debug=False)
 	cmd_args = parser.parse_args()
 	
-	# read the source image
-	src_img = cv.imread(cmd_args.src_img_path)
-	image_converter_args = ImageConverterArgs(
-		blur_radius=5,
-		canny_threshold_1=60,
-		canny_threshold_2=10,
-		hough_threshold=8,
-		aperture_size=3,
-		min_line_length=5,
-		max_line_gap=5,
-		rho=1,
-		theta=np.pi/180
-	)
+	paper = Paper(cmd_args.height, cmd_args.width, cmd_args.x_offset, cmd_args.y_offset)
 
-	# convert the source image
-	image_converter = ImageConverter(src_img, image_converter_args, cmd_args.debug)
-	segments = image_converter.convert()
+	real_space_segments = image_process(cmd_args.src_img_path, paper, cmd_args.debug)
 
-	# optimize the moving path
-	optimizer = PathOptimizer()
-	optimized_segments = optimizer.optimize(segments, debug=cmd_args.debug, shape=src_img.shape)
-
-	# convert image to real space
-	pixel_to_real = PixelToRealSpaceConverter()
-	real_space_segments = pixel_to_real.convert(optimized_segments, src_img.shape, 
-		(cmd_args.height, cmd_args.width), (cmd_args.x_offset, cmd_args.y_offset), debug=cmd_args.debug)
+	export_path_csv(real_space_segments)
 
 	if cmd_args.debug:
-		export_path_csv(real_space_segments)
+		# wait for key inputs to see the intermediate images
 		cv.waitKey()
 
 # main program entry point
