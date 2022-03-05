@@ -1,5 +1,6 @@
 import numpy as np
 import cv2 as cv
+import progressbar
 
 class PathOptimizer:
 	def optimize(self, segments, debug=False, shape=None):
@@ -13,24 +14,30 @@ class PathOptimizer:
 
 		segments.pop(0)
 
-		while len(segments) > 0:
-			new_segments.append(current_line)
+		totalLength = len(segments)
 
-			closest_id = 0
-			closest_end = 0
-			closest_distance = float("inf")
+		with progressbar.ProgressBar(max_value=totalLength) as bar:
 
-			for i in range(len(segments)):
-				distance_sqr, end = self._closest_distance_sqr(current_line[current_end], segments[i])
+			while len(segments) > 0:
+				new_segments.append(current_line)
 
-				if distance_sqr <= closest_distance:
-					closest_id = i
-					closest_end = end
-					closest_distance = distance_sqr
-			
-			current_line = segments[closest_id]
-			current_end = closest_end
-			segments.pop(closest_id)
+				closest_id = 0
+				closest_end = 0
+				closest_distance = float("inf")
+
+				for i in range(len(segments)):
+					distance_sqr, end = self._closest_distance_sqr(current_line[current_end], segments[i])
+
+					if distance_sqr <= closest_distance:
+						closest_id = i
+						closest_end = end
+						closest_distance = distance_sqr
+				
+				current_line = segments[closest_id]
+				current_end = closest_end
+				segments.pop(closest_id)
+
+				bar.update(totalLength - len(segments)) # update progress bar
 
 		if debug and shape is not None:
 			optimized_img = np.zeros(shape, np.uint8)
