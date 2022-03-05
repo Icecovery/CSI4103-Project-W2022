@@ -41,10 +41,10 @@ class PixelToRealSpaceConverter:
 			y2 = segment[1][1] * scaling_factor - rootCoordinate[1]
 
 			x1 = round(x1)
-			y1 = round(y1)
+			y1 = -round(y1)
 
 			x2 = round(x2)
-			y2 = round(y2)
+			y2 = -round(y2)
 
 			start = (x1, y1)
 			end = (x2, y2)
