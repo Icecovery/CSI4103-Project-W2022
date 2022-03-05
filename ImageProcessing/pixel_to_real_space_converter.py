@@ -1,6 +1,6 @@
 import numpy as np
 import cv2 as cv
-
+import progressbar
 
 class PixelToRealSpaceConverter:
 
@@ -34,7 +34,7 @@ class PixelToRealSpaceConverter:
 			# use height to calculate scaling factor
 			scaling_factor = realSize[1] / pixelSize[1]
 
-		for segment in segments:
+		for segment in progressbar.progressbar(segments):
 			x1 = segment[0][0] * scaling_factor - rootCoordinate[0]
 			y1 = segment[0][1] * scaling_factor - rootCoordinate[1]
 			x2 = segment[1][0] * scaling_factor - rootCoordinate[0]
