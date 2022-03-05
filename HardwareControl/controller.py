@@ -1,3 +1,4 @@
+from time import sleep
 from gpiozero import Device, AngularServo, Buzzer
 from gpiozero.pins.pigpio import PiGPIOFactory
 

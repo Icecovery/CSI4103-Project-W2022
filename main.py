@@ -1,11 +1,8 @@
 import os
 
-def export_env_var():
-    os.environ["PAPER_HEIGHT"] = "279"
-    os.environ["PAPER_WIDTH"] = "216"
+from ImageProcessing.image_processing import process
 
 def main():
-    export_env_var()
     print(os.environ)
 
 if __name__ == "__main__":
