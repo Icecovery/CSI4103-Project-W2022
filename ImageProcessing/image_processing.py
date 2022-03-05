@@ -8,6 +8,11 @@ from .path_optimizer import *
 from .pixel_to_real_space_converter import *
 
 def process(src_image_path: str, paper: Paper, debug=False):
+    '''
+        @brief Process the source image, and return the real-world coordinates
+        of line segments.
+    '''
+
     # read the source image
     src_img = cv.imread(src_image_path)
     image_converter_args = ImageConverterArgs(
@@ -29,8 +34,6 @@ def process(src_image_path: str, paper: Paper, debug=False):
     # optimize the moving path
     optimizer = PathOptimizer()
     optimized_segments = optimizer.optimize(segments, debug=debug, shape=src_img.shape)
-
-    # print(optimized_segments)
 
     # convert image to real space
     pixel_to_real = PixelToRealSpaceConverter()

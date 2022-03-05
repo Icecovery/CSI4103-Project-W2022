@@ -5,6 +5,9 @@ class Paper:
     '''
 
     def __init__(self, height: int, width: int, x_offset: int, y_offset: int):
+        '''
+            All the lengths are in mm.
+        '''
         self.height = height
         self.width = width
         # TODO: Is x and y offsets based on the paper size? If so, no need to
