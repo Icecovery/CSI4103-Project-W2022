@@ -2,9 +2,30 @@ from time import sleep
 from gpiozero import Device, AngularServo, Buzzer
 from gpiozero.pins.pigpio import PiGPIOFactory
 
-from constants import SERVO_A_PIN, SERVO_B_PIN, SERVO_C_PIN, BUZZER_PIN
+# PWM pins
+# GPIO12 - PWM0 - Servo A
+# GPIO13 - PWM1 - Servo B
+# GPIO18 - PWM0 - Servo C
+
+SERVO_A_PIN = 12
+SERVO_B_PIN = 13
+SERVO_C_PIN = 18
+BUZZER_PIN = 23
+
+# MG995 (Servo A and B)
+# Angle range: 0 - 180 deg
+# Pulse width: 500 - 2500 us
+# Duty cycle: 2.5 - 12.5%
+
+# SG90 (Servo C)
+# Angle range: 0 - 120 deg
+# Pulse width: 900 - 2100 us
+# Duty cycle: 4.5 - 10.5%
 
 class Controller:
+    '''
+        This class is used to controll the servos.
+    '''
 
     def __init__(self, la=160, lb=150):
         # https://gpiozero.readthedocs.io/en/stable/api_pins.html#changing-pin-factory
@@ -43,67 +64,34 @@ class Controller:
         # disable after movement to stop it from making noise
         sleep(0.1)
         self.servo_c.angle = None
+    
+    def _reset_servos(self):
+        self._set_servo_a(0)
+        self._set_servo_b(0)
+        self._set_servo_c(False)
 
     def clean_up(self):
         self.servo_a.angle = None
         self.servo_b.angle = None
         self.servo_c.angle = None
 
-    # main program
-    # def main(self):
+    def draw(self, angle_sets):
+        '''
+            Use angles to control the servos to move the arms and pen to draw.
+        '''
+        self._reset_servos()
+        sleep(1)
 
-    #     self._set_servo_a(0)
-    #     self._set_servo_b(0)
-    #     self._set_servo_c(False)
-
-    #     sleep(1)
-
-    #     lines = []
-    #     angles = []
-    #     offset_a = 38.69
-    #     offset_b = 0
-    #     src_csv_path = "path.csv"
-
-    #     # put vectors from CSV into an array
-    #     with open(src_csv_path, 'r') as file:
-    #         reader = csv.reader(file)
-    #         for row in reader:
-    #             i = 0
-    #             while i < len(row):  # convert vectors from str to int
-    #                 row[i] = float(row[i])
-    #                 i += 1
-    #             lines.append(row)
-
-    #     # calculate angles
-    #     for line in lines:
-    #         # origin angles
-    #         angle_a1, angle_b1 = coordinate_to_angle(line[0], line[1], self.la, self.lb)
-
-    #         # destination angles
-    #         angle_a2, angle_b2 = coordinate_to_angle(line[2], line[3], self.la, self.lb)
-
-    #         angle = []
-    #         angle.append(math.degrees(angle_a1) + offset_a)
-    #         angle.append(math.degrees(angle_b1) + offset_b)
-    #         angle.append(math.degrees(angle_a2) + offset_a)
-    #         angle.append(math.degrees(angle_b2) + offset_b)
-
-    #         angles.append(angle)
-
-    #     for angle in angles:
-    #         self._set_servo_a(angle[0])
-    #         self._set_servo_b(angle[1])
-    #         sleep(1)
-    #         self._set_servo_c(True)
-    #         self._set_servo_a(angle[2])
-    #         self._set_servo_b(angle[3])
-    #         sleep(1)
-    #         self._set_servo_c(False)
-
-    #     sleep(1)
-
-    #     self._set_servo_a(0)
-    #     self._set_servo_b(0)
-    #     self._set_servo_c(False)
-
-    #     sleep(1)
+        for angle_set in angle_sets:
+            self._set_servo_a(angle_set[0])
+            self._set_servo_b(angle_set[1])
+            sleep(1)
+            self._set_servo_c(True)
+            self._set_servo_a(angle_set[2])
+            self._set_servo_b(angle_set[3])
+            sleep(1)
+            self._set_servo_c(False)
+        sleep(1)
+        
+        self._reset_servos()
+        sleep(1)
