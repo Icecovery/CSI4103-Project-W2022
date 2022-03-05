@@ -1,0 +1,1 @@
+rsync -a -P --delete ./ pi@raspberrypi-4gb.local:/home/pi/Brachiograph/
