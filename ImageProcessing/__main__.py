@@ -66,8 +66,10 @@ def main():
 	real_space_segments = pixel_to_real.convert(optimized_segments, src_img.shape, 
 		(cmd_args.height, cmd_args.width), (cmd_args.x_offset, cmd_args.y_offset), debug=cmd_args.debug)
 
+	export_path_csv(real_space_segments)
+
 	if cmd_args.debug:
-		export_path_csv(real_space_segments)
+		# wait for key inputs to see the intermediate images
 		cv.waitKey()
 
 # main program entry point
