@@ -29,14 +29,15 @@ class Controller:
 	def setup(self):
 		# https://gpiozero.readthedocs.io/en/stable/api_pins.html#changing-pin-factory
 		# Use Pi GPIO pin factory to increse accuracy
-		Device.pin_factory = PiGPIOFactory()
+		# Device.pin_factory = PiGPIOFactory()
 
-		self.buzzer = Buzzer(BUZZER_PIN)
-		self.warning()
+		# self.buzzer = Buzzer(BUZZER_PIN)
+		# self.warning()
 
-		self.servoA = AngularServo(SERVO_A_PIN, 136, 0, 180, 0.5/1000, 2.5/1000)
-		self.servoB = AngularServo(SERVO_B_PIN, 9, 0, 180, 0.5/1000, 2.5/1000)
-		self.servoC = AngularServo(SERVO_C_PIN, 120, 0, 120, 0.9/1000, 2.1/1000)
+		# self.servoA = AngularServo(SERVO_A_PIN, 136, 0, 180, 0.5/1000, 2.5/1000)
+		# self.servoB = AngularServo(SERVO_B_PIN, 9, 0, 180, 0.5/1000, 2.5/1000)
+		# self.servoC = AngularServo(SERVO_C_PIN, 120, 0, 120, 0.9/1000, 2.1/1000)
+		pass
 		
 
 	def warning(self):
@@ -70,11 +71,11 @@ class Controller:
 		
 		# Testing patten
 
-		self.SetServoA(0)
-		self.SetServoB(0)
-		self.SetServoC(False)
+		# self.SetServoA(0)
+		# self.SetServoB(0)
+		# self.SetServoC(False)
 
-		sleep(1)
+		# sleep(1)
 
 		lines = []
 		angles = []
@@ -93,40 +94,42 @@ class Controller:
 					row[i] = float(row[i])
 					i += 1
 				lines.append(row)
+		
+		print(lines)
 
 		# calculate angles
-		for line in lines:
-			# origin angles
-			angle_a1, angle_b1 = coordinate_to_angle(line[0], line[1], la, lb)
+		# for line in lines:
+		# 	# origin angles
+		# 	angle_a1, angle_b1 = coordinate_to_angle(line[0], line[1], la, lb)
 
-			# destination angles
-			angle_a2, angle_b2 = coordinate_to_angle(line[2], line[3], la, lb)
+		# 	# destination angles
+		# 	angle_a2, angle_b2 = coordinate_to_angle(line[2], line[3], la, lb)
 
-			angle = []
-			angle.append(math.degrees(angle_a1) + offset_a)
-			angle.append(math.degrees(angle_b1) + offset_b)
-			angle.append(math.degrees(angle_a2) + offset_a)
-			angle.append(math.degrees(angle_b2) + offset_b)
+		# 	angle = []
+		# 	angle.append(math.degrees(angle_a1) + offset_a)
+		# 	angle.append(math.degrees(angle_b1) + offset_b)
+		# 	angle.append(math.degrees(angle_a2) + offset_a)
+		# 	angle.append(math.degrees(angle_b2) + offset_b)
 
-			angles.append(angle)
+		# 	angles.append(angle)
 
-		for angle in angles:
-			self.SetServoA(angle[0])
-			self.SetServoB(angle[1])
-			sleep(1)
-			self.SetServoC(True)
-			self.SetServoA(angle[2])
-			self.SetServoB(angle[3])
-			sleep(1)
-			self.SetServoC(False)
+		# for angle in angles:
+		# 	self.SetServoA(angle[0])
+		# 	self.SetServoB(angle[1])
+		# 	sleep(1)
+		# 	self.SetServoC(True)
+		# 	self.SetServoA(angle[2])
+		# 	self.SetServoB(angle[3])
+		# 	sleep(1)
+		# 	self.SetServoC(False)
 
-		sleep(1)
+		# sleep(1)
 		
-		self.SetServoA(0)
-		self.SetServoB(0)
-		self.SetServoC(False)
+		# self.SetServoA(0)
+		# self.SetServoB(0)
+		# self.SetServoC(False)
 
-		sleep(1)
+		# sleep(1)
 
 # main entry point
 if __name__ == '__main__':

@@ -25,7 +25,7 @@ def import_parents(level=1):
 import_parents(level=3) # N = 3
 
 from ...paper import Paper
-from ...image_processing import process
+from ...image_processing import image_process
 
 def export_path_csv(l):
 	EXPORT_DIR = "Temp"
@@ -61,7 +61,7 @@ def main():
 	
 	paper = Paper(cmd_args.height, cmd_args.width, cmd_args.x_offset, cmd_args.y_offset)
 
-	real_space_segments = process(cmd_args.src_img_path, paper, cmd_args.debug)
+	real_space_segments = image_process(cmd_args.src_img_path, paper, cmd_args.debug)
 
 	export_path_csv(real_space_segments)
 

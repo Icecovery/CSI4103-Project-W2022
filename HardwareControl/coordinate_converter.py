@@ -6,7 +6,11 @@ class CoordinatesToAnglesConverter:
         of the servos. Use inverse kinematics to do the converting.
     '''
 
-    def __init__(self):
+    def __init__(self, lines):
+        self.lines = lines
+        pass
+    
+    def convert(self):
         pass
 
 def coordinate_to_angle(x, y, la, lb):

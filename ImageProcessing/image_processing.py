@@ -7,7 +7,7 @@ from .image_converter import *
 from .path_optimizer import *
 from .pixel_to_real_space_converter import *
 
-def process(src_image_path: str, paper: Paper, debug=False):
+def image_process(src_image_path: str, paper: Paper, debug=False):
     '''
         @brief Process the source image, and return the real-world coordinates
         of line segments.
