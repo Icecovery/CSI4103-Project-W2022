@@ -2,7 +2,6 @@ import argparse
 import os
 import cv2 as cv
 import numpy as np
-from parso import parse
 from image_converter import *
 from path_optimizer import *
 from pixel_to_real_space_converter import *
