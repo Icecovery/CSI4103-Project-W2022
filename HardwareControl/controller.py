@@ -27,7 +27,7 @@ class Controller:
         This class is used to controll the servos.
     '''
 
-    def __init__(self, la=160, lb=150):
+    def __init__(self):
         # https://gpiozero.readthedocs.io/en/stable/api_pins.html#changing-pin-factory
         # use Pi GPIO pin factory to increse accuracy
         Device.pin_factory = PiGPIOFactory()
@@ -36,9 +36,6 @@ class Controller:
         self.servo_a = AngularServo(SERVO_A_PIN, 136, 0, 180, 0.5/1000, 2.5/1000)
         self.servo_b = AngularServo(SERVO_B_PIN, 9, 0, 180, 0.5/1000, 2.5/1000)
         self.servo_c = AngularServo(SERVO_C_PIN, 120, 0, 120, 0.9/1000, 2.1/1000)
-
-        self.la = la
-        self.lb = lb
 
         # init the buzzer to enable the warning beep
         self.buzzer = Buzzer(BUZZER_PIN)
