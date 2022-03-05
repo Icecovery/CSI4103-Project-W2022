@@ -53,7 +53,7 @@ class Controller:
         # servo B dead zone: 163
         # servo B "0 degree": 9 deg
         # reversed
-        self.servo_b.angle = max(163, 180 - angle - 9)
+        self.servo_b.angle = min(163, 180 - angle - 9)
 
     def _set_servo_c(self, isDown):
         self.servo_c.angle = 100 if isDown else 120
