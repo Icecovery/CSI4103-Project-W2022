@@ -4,6 +4,22 @@ import progressbar
 from .device_abstraction import *
 
 def coordinate_to_angle(x, y, la, lb):
+	'''
+		Get the coordinate of the pen and the lenghs of two arms to calculate
+		the angles of the two servos in radians.
+
+		Parameter
+		---------
+		The value of the parameters are all in millimeter(mm).
+
+		`x`: x coordinate of the pen
+
+		`y`: y coordinate of the pen
+
+		`la`: the length of the arm a
+
+		`lb`: the length of the arm b
+	'''
 	ac = math.sqrt(x ** 2 + y ** 2)
 	bac = math.acos((la ** 2 + ac ** 2 - lb ** 2) / (2.0 * la * ac))
 	yac = math.asin(x / ac)
