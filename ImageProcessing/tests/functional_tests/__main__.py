@@ -2,10 +2,10 @@ import argparse
 import os
 import cv2 as cv
 import sys
-import importlib
-from pathlib import Path
 
+# start: code to resolve relative imports
 import sys
+import importlib
 from pathlib import Path
 
 def import_parents(level=1):
@@ -23,6 +23,7 @@ def import_parents(level=1):
     importlib.import_module(__package__) # won't be needed after that
 
 import_parents(level=3) # N = 3
+# end: code to resolve relative imports
 
 from ...paper import Paper
 from ...image_processing import image_process
