@@ -25,7 +25,7 @@ class ImageConverterArgs:
 	
 	def _calibrate(self):
 		'''
-			@brief private function
+			Private function
 		'''
 		if self.blur_radius % 2 == 0:
 			self.blur_radius += 1 # blur radius must be odd
@@ -33,18 +33,19 @@ class ImageConverterArgs:
 			self.aperture_size += 1 # aperture size must be odd
 
 class ImageConverter:
+	'''
+		This class is used to convert the source image to the line segments
+		using OpenCV library.
+	'''
+
 	def __init__(self, src_img, args: ImageConverterArgs, debug=False):
-		'''
-			@param src_img: source image
-			@param args: an instance of ImageConverterArgs
-		'''
 		self.src_img = src_img
 		self.args = args
 		self.debug = debug
 	
 	def convert(self):
 		'''
-			@brief convert the source image to the images with line segments
+			Convert the source image to the images with line segments.
 		'''
 		# from src_img to gray_scale_img
 		gray_scale_img = cv.cvtColor(self.src_img, cv.COLOR_RGB2GRAY)

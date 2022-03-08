@@ -3,7 +3,25 @@ import cv2 as cv
 import progressbar
 
 class PathOptimizer:
+	'''
+		This class is to optimize the line segments so that the path of the pen
+		can be shorter.
+	'''
+
 	def optimize(self, segments, debug=False, shape=None):
+		'''
+			Optimize the line segments.
+
+			Parameters
+			----------
+			`segments`: list of the pairs of the start point and end point for
+			each line, like [((1, 1), (2, )) ...].
+
+			`debug`: debug flag
+
+			`shape`: image shape, img_shape attribute of an object returned by
+			cv2.imread() function.
+		'''
 		if segments is None:
 			raise AttributeError()
 
@@ -54,6 +72,9 @@ class PathOptimizer:
 		return new_segments
 
 	def _closest_distance_sqr(self, p, line):
+		'''
+			Private function
+		'''
 		distance_sqr_to_p0 = (p[0] - line[0][0]) ** 2 + (p[1] - line[0][1]) ** 2
 		distance_sqr_to_p1 = (p[0] - line[1][0]) ** 2 + (p[1] - line[1][1]) ** 2
 
