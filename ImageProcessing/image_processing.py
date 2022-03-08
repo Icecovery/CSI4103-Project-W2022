@@ -9,8 +9,17 @@ from .pixel_to_real_space_converter import *
 
 def image_process(src_image_path: str, paper: Paper, debug=False):
 	'''
-		@brief Process the source image, and return the real-world coordinates
+		Process the source image, and return the real-world coordinates
 		of line segments.
+
+		Parameters
+		----------
+
+		`src_image_path`: the path of the source image
+
+		`paper`: an object of Paper class containing some papar size data
+
+		`debug`: debug flag
 	'''
 
 	# read the source image
@@ -38,7 +47,7 @@ def image_process(src_image_path: str, paper: Paper, debug=False):
 	print("Optimizing path...")
 	optimized_segments = optimizer.optimize(segments, debug=debug, shape=src_img.shape)
 
-	# convert image to real space
+	# convert the line segments in pixel length to the line segments in real-world length
 	pixel_to_real = PixelToRealSpaceConverter()
 
 	print("Converting to real space...")
