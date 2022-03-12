@@ -27,9 +27,26 @@ import_parents(level=3) # N = 3
 
 from ...convert import *
 
+# Refer to ~InverseKinematics\angle-format.png for visualization of angles a and b
 def test_coordinate_to_angle():
-	# TODO: add more test cases
-	EPS = 0.001
-	a, b = coordinate_to_angle(100, -100, 100, 100)
-	assert pytest.approx(a, EPS) == 0.0
-	assert pytest.approx(b, EPS) == math.pi / 2
+    EPS = 0.001 
+
+    a, b = coordinate_to_angle(100, -100, 100, 100)
+    assert pytest.approx(a, EPS) == 0.0
+    assert pytest.approx(b, EPS) == math.pi / 2 
+
+    a, b = coordinate_to_angle(100, 100, 100, 100)
+    assert pytest.approx(a, EPS) == math.pi / 2 
+    assert pytest.approx(b, EPS) == math.pi / 2 
+
+    a, b = coordinate_to_angle(200, 0, 100, 100)
+    assert pytest.approx(a, EPS) == math.pi / 2
+    assert pytest.approx(b, EPS) == math.pi
+
+    a, b = coordinate_to_angle(141.421356, 0, 100, 100)
+    assert pytest.approx(a, EPS) == math.pi / 4
+    assert pytest.approx(b, EPS) == math.pi /2
+
+    a, b = coordinate_to_angle(50, 50, 100, 100)
+    assert pytest.approx(a, EPS) == 1.1467655
+    assert pytest.approx(b, EPS) == 0.7227342
