@@ -1,12 +1,9 @@
 import argparse
 
-from ImageProcessing.paper import Paper
+from ImageProcessing.paper import LETTER_PAPER
 from ImageProcessing.image_processing import image_process
 from InverseKinematics.convert import lines_to_angles
 from HardwareControl.controller import Controller
-
-# some paper pre-sets
-LETTER_PAPER = Paper(279, 216, -50, 140)
 
 def main():
 	# parse the command-line args

@@ -14,3 +14,6 @@ class Paper:
         # get x and offsets from parameters. Create a function to calculate it.
         self.x_offset = x_offset
         self.y_offset = y_offset
+
+# some paper pre-sets
+LETTER_PAPER = Paper(279, 216, -50, 140)
