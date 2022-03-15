@@ -1,4 +1,5 @@
 import argparse
+import subprocess
 
 from ImageProcessing.paper import LETTER_PAPER
 from ImageProcessing.image_processing import image_process
@@ -6,15 +7,21 @@ from InverseKinematics.convert import lines_to_angles
 from HardwareControl.controller import Controller
 
 def main():
+	# start pigpiod (pigpio daemon)
+	subprocess.run(["sudo", "pigpio"])
+	
 	# parse the command-line args
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-s", "--src_img_path",
 						required=True, dest="src_img_path", action="store", type=str, help="Path to the source image")
 	cmd_args = parser.parse_args()
 
+	# start to process the image
 	real_space_segments = image_process(cmd_args.src_img_path, LETTER_PAPER, False)
 	angle_sets = lines_to_angles(real_space_segments)
 	controller = Controller()
+
+	# start to draw the processed image
 	try:
 		controller.draw(angle_sets)
 	except KeyboardInterrupt:
