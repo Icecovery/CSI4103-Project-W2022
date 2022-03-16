@@ -25,7 +25,7 @@ def import_parents(level=1):
 import_parents(level=3) # N = 3
 # end: code to resolve relative imports
 
-from ...paper import Paper
+from ...paper import LETTER_PAPER
 from ...image_processing import image_process
 
 def export_path_csv(l):
@@ -49,20 +49,10 @@ def main():
 						dest="debug", action="store_true", help="Enable debug outputs.")
 	parser.add_argument("-s", "--src_img_path",
 						required=True, dest="src_img_path", action="store", type=str, help="Path to the source image")
-	parser.add_argument("--height",
-						required=True, dest="height", action="store", type=int, help="Height of the paper")
-	parser.add_argument("--width",
-						required=True, dest="width", action="store", type=int, help="Width of the paper")
-	parser.add_argument("-x", "--x_offset",
-						required=True, dest="x_offset", action="store", type=int, help="X offset of the origin")
-	parser.add_argument("-y", "--y_offset",
-						required=True, dest="y_offset", action="store", type=int, help="Y offset of the origin")
 	parser.set_defaults(debug=False)
 	cmd_args = parser.parse_args()
-	
-	paper = Paper(cmd_args.height, cmd_args.width, cmd_args.x_offset, cmd_args.y_offset)
 
-	real_space_segments = image_process(cmd_args.src_img_path, paper, cmd_args.debug)
+	real_space_segments = image_process(cmd_args.src_img_path, LETTER_PAPER, cmd_args.debug)
 
 	export_path_csv(real_space_segments)
 
