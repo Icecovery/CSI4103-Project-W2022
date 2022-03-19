@@ -8,7 +8,7 @@ from HardwareControl.controller import Controller
 
 def main():
 	# start pigpiod (pigpio daemon)
-	subprocess.run(["sudo", "pigpio"])
+	subprocess.run(["sudo", "pigpiod"])
 	
 	# parse the command-line args
 	parser = argparse.ArgumentParser()
