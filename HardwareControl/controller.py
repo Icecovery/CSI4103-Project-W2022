@@ -83,11 +83,11 @@ class Controller:
 		for angle_set in progressbar.progressbar(angle_sets):
 			self._set_servo_a(angle_set[0])
 			self._set_servo_b(angle_set[1])
-			sleep(1)
+			sleep(0.5)
 			self._set_servo_c(True)
 			self._set_servo_a(angle_set[2])
 			self._set_servo_b(angle_set[3])
-			sleep(1)
+			sleep(0.5)
 			self._set_servo_c(False)
 		sleep(1)
 		

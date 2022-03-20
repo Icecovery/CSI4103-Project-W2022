@@ -37,14 +37,15 @@ class PathOptimizer:
 		with progressbar.ProgressBar(max_value=totalLength) as bar:
 
 			while len(segments) > 0:
-				new_segments.append(current_line)
+				line = (current_line[1], current_line[0]) if current_end == 1 else current_line
+				new_segments.append(line)
 
 				closest_id = 0
 				closest_end = 0
 				closest_distance = float("inf")
 
 				for i in range(len(segments)):
-					distance_sqr, end = self._closest_distance_sqr(current_line[current_end], segments[i])
+					distance_sqr, end = self._closest_distance_sqr(current_line[(current_end + 1 ) % 2], segments[i])
 
 					if distance_sqr <= closest_distance:
 						closest_id = i
@@ -56,6 +57,8 @@ class PathOptimizer:
 				segments.pop(closest_id)
 
 				bar.update(totalLength - len(segments)) # update progress bar
+			
+			new_segments.append((current_line[1], current_line[0]) if current_end == 1 else current_line)
 
 		if debug and shape is not None:
 			optimized_img = np.zeros(shape, np.uint8)
