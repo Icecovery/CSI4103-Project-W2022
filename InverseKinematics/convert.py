@@ -37,20 +37,44 @@ def lines_to_angles(lines):
 	'''
 	print("Converting lines to angles...")
 
-	angle_sets = []
+	instructions = []
+	
 	for line in progressbar.progressbar(lines):
 		start, end = line
-		# current angles
-		angle_a1, angle_b1 = coordinate_to_angle(start[0], start[1], ARM_A_LEN, ARM_B_LEN)
-		# next angles
-		angle_a2, angle_b2 = coordinate_to_angle(end[0], end[1], ARM_A_LEN, ARM_B_LEN)
-		
-		angle_set = []
-		angle_set.append(math.degrees(angle_a1) + A_OFFSET)
-		angle_set.append(math.degrees(angle_b1) + B_OFFSET)
-		angle_set.append(math.degrees(angle_a2) + A_OFFSET)
-		angle_set.append(math.degrees(angle_b2) + B_OFFSET)
 
-		angle_sets.append(angle_set)
+		# move to start instruction
+		angle_a, angle_b = coordinate_to_angle(start[0], start[1], ARM_A_LEN, ARM_B_LEN)
+		instructions.append((math.degrees(angle_a) + A_OFFSET,
+							 math.degrees(angle_b) + B_OFFSET))
+		instructions.append(0.5) # delay
+		instructions.append(True) # pen down
 
-	return angle_sets
+
+		length = math.sqrt((start[0] - end[0]) ** 2 + (start[1] - end[1]) ** 2)
+
+		# in mm
+		maxLineDistance = 5 # TODO: make it configurable
+
+		# how many parts to break the line into
+		partNum = 1
+		if (length > maxLineDistance):
+			partNum = math.ceil(length / maxLineDistance)
+
+		partLength = length / partNum
+
+		# (x1+k(x2-x1)/n,y1+k(y2-y1)/n)
+		xPart = (end[0] - start[0]) / partNum
+		yPart = (end[1] - start[1]) / partNum
+
+		for i in range(1, partNum + 1):
+			x = start[0] + i * xPart
+			y = start[1] + i * yPart
+
+			angle_a, angle_b = coordinate_to_angle(x, y, ARM_A_LEN, ARM_B_LEN)
+			instructions.append((math.degrees(angle_a) + A_OFFSET,
+								math.degrees(angle_b) + B_OFFSET))
+			instructions.append(0.05)
+
+		instructions.append(False)  # pen up
+
+	return instructions
