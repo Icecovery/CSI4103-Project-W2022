@@ -32,35 +32,61 @@ def coordinate_to_angle(x, y, la, lb):
 
 def lines_to_angles(lines):
 	'''
-		@brief Convert line segments produced by ImageProcessing module to the angles
-		which are used to control the servos.
+		@brief Convert line segments produced by ImageProcessing module to the 
+		instructions
 	'''
-	print("Converting lines to angles...")
+	print("Converting lines to instructions...")
 
 	instructions = []
+
+	# in mm
+	minimumLineLength = 1  # TODO: make it configurable
+	maxSegmentDistance = 5  # TODO: make it configurable
+	minimumInterLineInterval = 2 # TODO: make it configurable
+
+	# delay between each interpolated segments in second
+	interLineSegmentDelay = 0.05  # TODO: make it configurable
+	# delay between each line in second
+	interLineDelay = 0.5  # TODO: make it configurable
+
+	lastEnd = (-999, -999)
 	
 	for line in progressbar.progressbar(lines):
 		start, end = line
 
-		# move to start instruction
-		angle_a, angle_b = coordinate_to_angle(start[0], start[1], ARM_A_LEN, ARM_B_LEN)
-		instructions.append((math.degrees(angle_a) + A_OFFSET,
-							 math.degrees(angle_b) + B_OFFSET))
-		instructions.append(0.5) # delay
+		# ==== skip line check ====
+
+		length = distance(start, end)
+		if (length < minimumLineLength):
+			# ignore this line
+			continue
+
+		# ==== skip pen lift check ====
+
+		interLineInterval = distance(end, lastEnd)
+		lastEnd = end
+
+		# do not lift the pen if inter line interval is too short
+		if (interLineInterval > minimumInterLineInterval):
+			instructions.append(False)  # pen up
+
+		# move to start
+		instructions.append(getAngleInstruction(start[0], start[1]))
+
+		# if inter lien interval is too short, we don't have to stop that long
+		if (interLineInterval > minimumInterLineInterval):
+			instructions.append(interLineDelay)
+		else:
+			instructions.append(interLineSegmentDelay)
+
 		instructions.append(True) # pen down
 
-
-		length = math.sqrt((start[0] - end[0]) ** 2 + (start[1] - end[1]) ** 2)
-
-		# in mm
-		maxLineDistance = 5 # TODO: make it configurable
+		# ==== interpolation ====
 
 		# how many parts to break the line into
 		partNum = 1
-		if (length > maxLineDistance):
-			partNum = math.ceil(length / maxLineDistance)
-
-		partLength = length / partNum
+		if (length > maxSegmentDistance):
+			partNum = math.ceil(length / maxSegmentDistance)
 
 		# (x1+k(x2-x1)/n,y1+k(y2-y1)/n)
 		xPart = (end[0] - start[0]) / partNum
@@ -70,11 +96,18 @@ def lines_to_angles(lines):
 			x = start[0] + i * xPart
 			y = start[1] + i * yPart
 
-			angle_a, angle_b = coordinate_to_angle(x, y, ARM_A_LEN, ARM_B_LEN)
-			instructions.append((math.degrees(angle_a) + A_OFFSET,
-								math.degrees(angle_b) + B_OFFSET))
-			instructions.append(0.05)
+			# move to segment
+			instructions.append(getAngleInstruction(x, y))
 
-		instructions.append(False)  # pen up
+			# delay
+			instructions.append(interLineSegmentDelay)
 
+	instructions.append(False)  # pen up
 	return instructions
+
+def getAngleInstruction(x, y):
+	angle_a, angle_b = coordinate_to_angle(x, y, ARM_A_LEN, ARM_B_LEN)
+	return (math.degrees(angle_a) + A_OFFSET, math.degrees(angle_b) + B_OFFSET)
+
+def distance(a, b):
+	return math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2)
