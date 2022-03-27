@@ -34,7 +34,7 @@ class PathOptimizer:
 
 		# the thing to return
 		new_segments = []
-
+    
 		GRID_SIZE = int(sqrt(len(segments) * 1)) # seems like a reasonable function
 		GRID_WIDTH = shape[1] / GRID_SIZE
 		GRID_HEIGHT = shape[0] / GRID_SIZE
@@ -123,7 +123,7 @@ class PathOptimizer:
 					# expand out layer by layer, in each layer check for the closest point
 					for grid_layer in range(1, GRID_SIZE):
 						closet_point_id = None
-						closet_distance_sq = 9999999
+						closet_distance_sq = float('inf')
 
 						# layer = 1:
 						# T T T
@@ -193,7 +193,7 @@ class PathOptimizer:
 			return None
 		
 		closet_point_id = None
-		closet_distance_sq = 9999999
+		closet_distance_sq = float('inf')
 		for p in cell:
 			distance_sq = self.DistanceSq(point, p[1])
 			if distance_sq < closet_distance_sq:

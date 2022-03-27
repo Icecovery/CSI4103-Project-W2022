@@ -33,18 +33,22 @@ class Controller:
 		# use Pi GPIO pin factory to increse accuracy
 		Device.pin_factory = PiGPIOFactory()
 
+		# init the buzzer to enable the warning beep
+		self.buzzer = Buzzer(BUZZER_PIN)
+		self._warning()
+
 		# set up the servos
 		self.servo_a = AngularServo(SERVO_A_PIN, 136, 0, 180, 0.5/1000, 2.5/1000)
 		self.servo_b = AngularServo(SERVO_B_PIN, 9, 0, 180, 0.5/1000, 2.5/1000)
 		self.servo_c = AngularServo(SERVO_C_PIN, 120, 0, 120, 0.9/1000, 2.1/1000)
 
-		# init the buzzer to enable the warning beep
-		self.buzzer = Buzzer(BUZZER_PIN)
-		self._warning()
-
 	def _warning(self):
 		self.buzzer.beep(0.1, 0.1, 2, True)
 		sleep(1)
+		self.buzzer.beep(0.1, 0.1, 2, True)
+		sleep(1)
+		self.buzzer.beep(1, 3, 1, True)
+		sleep(2)
 
 	def _set_servo_a(self, angle):
 		# servo A "0 degree": 7 deg
@@ -73,22 +77,24 @@ class Controller:
 		self.servo_b.angle = None
 		self.servo_c.angle = None
 
-	def draw(self, angle_sets):
+	def draw(self, instructions):
 		'''
 			Use angles to control the servos to move the arms and pen to draw.
 		'''
 
 		print("Drawing...")
 
-		for angle_set in progressbar.progressbar(angle_sets):
-			self._set_servo_a(angle_set[0])
-			self._set_servo_b(angle_set[1])
-			sleep(1)
-			self._set_servo_c(True)
-			self._set_servo_a(angle_set[2])
-			self._set_servo_b(angle_set[3])
-			sleep(1)
-			self._set_servo_c(False)
+		for instruction in progressbar.progressbar(instructions):
+			if (type(instruction) is bool): # servo C command
+				self._set_servo_c(instruction)
+			elif (type(instruction) is tuple): # servo A and B command
+				self._set_servo_a(instruction[0])
+				self._set_servo_b(instruction[1])
+			elif (type(instruction) is float): # delay command
+				sleep(instruction)
+			else:
+				raise NotImplementedError
+		
 		sleep(1)
 		
 		self._reset_servos()
