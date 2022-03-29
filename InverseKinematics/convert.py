@@ -30,7 +30,7 @@ def coordinate_to_angle(x, y, la, lb):
 
 	return (angle_a, angle_b)
 
-def lines_to_angles(lines):
+def lines_to_instructions(lines):
 	'''
 		@brief Convert line segments produced by ImageProcessing module to the 
 		instructions

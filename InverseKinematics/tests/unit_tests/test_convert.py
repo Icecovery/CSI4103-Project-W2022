@@ -58,11 +58,11 @@ Tests applied with the following arm lengths and offsets:
     ARM_A_LEN = 160
     ARM_B_LEN = 150
 """
-def test_lines_to_angles():
+def test_lines_to_instructions():
     EPS = 0.001
 
     lines = [[[100, 100], [200, 0]], [[50, 50], [141.4214, 0]]]
-    angles = lines_to_angles(lines)
+    angles = lines_to_instructions(lines)
 
     assert pytest.approx(angles[0][0], EPS) == 114.3833
     assert pytest.approx(angles[0][1], EPS) == 54.1676
