@@ -1,4 +1,4 @@
-from ..HardwareControl.controller import Controller
+from HardwareControl.controller import Controller
 from InverseKinematics.convert import coordinate_to_angle
 
 def main():
@@ -22,8 +22,8 @@ def main():
 		xoffsets = []
 		for x in range(xresolution):
 			# convert point coords to angles for servos
-			xpos = x * xinterval
-			ypos = y * yinterval
+			xpos = (x * xinterval) + 10
+			ypos = ylength - (y * yinterval) 
 			angles = coordinate_to_angle(xpos, ypos, 160, 150)
 
 			# move brachigraph
@@ -34,10 +34,11 @@ def main():
 
 			# prompt user fo offsets
 			print("Point = (" + str(x) + ", " + str(y) + ")")
-			print("Expected position = (" + str(xpos) + +", " + str(ypos) + ")")
+			print("Expected position = (" + str(xpos) +", " + str(ypos) + ")")
 			xoffset = float(input("Enter X offset for point: "))
 			yoffset = float(input("Enter Y offset for point: "))
 			xoffsets.append([xoffset, yoffset])
 		offsets.append(xoffsets)
 		
+	print(offsets)
 main()
