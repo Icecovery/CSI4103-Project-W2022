@@ -62,14 +62,15 @@ def test_lines_to_instructions():
     EPS = 0.001
 
     lines = [[[100, 100], [200, 0]], [[50, 50], [141.4214, 0]]]
-    angles = lines_to_instructions(lines)
+    instructions = lines_to_instructions(lines)
+    print(instructions)
 
-    assert pytest.approx(angles[0][0], EPS) == 114.3833
-    assert pytest.approx(angles[0][1], EPS) == 54.1676
-    assert pytest.approx(angles[0][2], EPS) == 81.0229
-    assert pytest.approx(angles[0][3], EPS) == 80.2849
+    assert pytest.approx(instructions[0][0], EPS) == 114.3833
+    assert pytest.approx(instructions[0][1], EPS) == 54.1676
+    assert pytest.approx(instructions[0][2], EPS) == 81.0229
+    assert pytest.approx(instructions[0][3], EPS) == 80.2849
 
-    assert pytest.approx(angles[1][0], EPS) == 104.6658
-    assert pytest.approx(angles[1][1], EPS) == 26.1144
-    assert pytest.approx(angles[1][2], EPS) == 69.3833
-    assert pytest.approx(angles[1][3], EPS) == 54.1676
+    assert pytest.approx(instructions[1][0], EPS) == 104.6658
+    assert pytest.approx(instructions[1][1], EPS) == 26.1144
+    assert pytest.approx(instructions[1][2], EPS) == 69.3833
+    assert pytest.approx(instructions[1][3], EPS) == 54.1676

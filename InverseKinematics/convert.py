@@ -32,8 +32,19 @@ def coordinate_to_angle(x, y, la, lb):
 
 def lines_to_instructions(lines):
 	'''
-		@brief Convert line segments produced by ImageProcessing module to the 
+		Convert line segments produced by ImageProcessing module to the 
 		instructions
+
+		Parameters
+		----------
+		`lines`: list of the coordinates of the line segments
+
+		Return
+		------
+		A list contains instructions with different types.
+		* `float`: sleep time
+		* `tuple`: angles of the servos
+		* `bool`: True -> pen down; False -> pen up
 	'''
 	print("Converting lines to instructions...")
 
