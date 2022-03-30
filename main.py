@@ -3,7 +3,7 @@ import subprocess
 
 from ImageProcessing.paper import LETTER_PAPER
 from ImageProcessing.image_processing import image_process
-from InverseKinematics.convert import lines_to_angles
+from InverseKinematics.convert import lines_to_instructions
 from HardwareControl.controller import Controller
 
 def main():
@@ -18,12 +18,12 @@ def main():
 
 	# start to process the image
 	real_space_segments = image_process(cmd_args.src_img_path, LETTER_PAPER, False)
-	angle_sets = lines_to_angles(real_space_segments)
+	instructions = lines_to_instructions(real_space_segments)
 	controller = Controller()
 
 	# start to draw the processed image
 	try:
-		controller.draw(angle_sets)
+		controller.draw(instructions)
 	except KeyboardInterrupt:
 		print("Keyboard interrupt detected, releasing servos...")
 		controller.clean_up()

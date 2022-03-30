@@ -58,18 +58,19 @@ Tests applied with the following arm lengths and offsets:
     ARM_A_LEN = 160
     ARM_B_LEN = 150
 """
-def test_lines_to_angles():
+def test_lines_to_instructions():
     EPS = 0.001
 
     lines = [[[100, 100], [200, 0]], [[50, 50], [141.4214, 0]]]
-    angles = lines_to_angles(lines)
+    instructions = lines_to_instructions(lines)
+    print(instructions)
 
-    assert pytest.approx(angles[0][0], EPS) == 114.3833
-    assert pytest.approx(angles[0][1], EPS) == 54.1676
-    assert pytest.approx(angles[0][2], EPS) == 81.0229
-    assert pytest.approx(angles[0][3], EPS) == 80.2849
+    check_points = [(114.3833, 54.1676), (81.0229, 80.2849), (104.6658, 26.1144), (69.3833, 54.1676)]
+    checked = 0
+    for inst in instructions:
+        if type(inst) is tuple:
+            for p in check_points:
+                if pytest.approx(inst[0], EPS) == p[0] and pytest.approx(inst[1], EPS) == p[1]:
+                    checked += 1
 
-    assert pytest.approx(angles[1][0], EPS) == 104.6658
-    assert pytest.approx(angles[1][1], EPS) == 26.1144
-    assert pytest.approx(angles[1][2], EPS) == 69.3833
-    assert pytest.approx(angles[1][3], EPS) == 54.1676
+    assert checked == len(check_points)
