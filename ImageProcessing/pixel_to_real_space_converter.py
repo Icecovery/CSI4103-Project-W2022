@@ -4,7 +4,7 @@ import progressbar
 
 class PixelToRealSpaceConverter:
 	'''
-		This class convert the coordinates in pixel length (px) to the real world length (mm).
+		This class converts the coordinates in pixel length (px) to the real world length (mm).
 
 		size are in (height, width) format
 		coordinate are in (x, y) format
@@ -22,6 +22,23 @@ class PixelToRealSpaceConverter:
 	'''
 
 	def convert(self, segments, shape, real_size, root, debug=False):
+		'''
+			Convert the coordinates in pixel length (px) to the real world length (mm).
+			
+			Parameters
+			----------
+			`segments`: list of coordinates in pixel length
+
+			`shape`: the shape of the image in pixel.
+
+			`real_size`: real paper size in mm.
+
+			`root`: the root coordinate of the arm base.
+
+			Return
+			------
+			A list of coordinates in mm.
+		'''
 		if segments is None:
 			raise AttributeError()
 		new_segments = []

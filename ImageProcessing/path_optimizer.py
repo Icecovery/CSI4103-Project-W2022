@@ -16,12 +16,12 @@ class PathOptimizer:
 
 			Parameters
 			----------
-			'segments': list of the pairs of the start point and end point for
+			`segments`: list of the pairs of the start point and end point for
 			each line, like [((1, 1), (2, )) ...].
 
-			'debug': debug flag
+			`debug`: debug flag
 
-			'shape': image shape, img_shape attribute of an object returned by
+			`shape`: image shape, img_shape attribute of an object returned by
 			cv2.imread() function.
 		'''
 		# segments[line, line, ...] => array of lines
