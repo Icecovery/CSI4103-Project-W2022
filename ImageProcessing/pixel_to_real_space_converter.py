@@ -21,7 +21,7 @@ class PixelToRealSpaceConverter:
 		unit of real size and root coordinate is mm
 	'''
 
-	def convert(self, segments, shape, realSize, rootCoordinate, debug=False):
+	def convert(self, segments, shape, real_size, root, debug=False):
 		if segments is None:
 			raise AttributeError()
 		new_segments = []
@@ -33,16 +33,16 @@ class PixelToRealSpaceConverter:
 
 		if pixel_size[0] > pixel_size[1]:  # image is wider
 			# use width to calculate scaling factor
-			scaling_factor = realSize[0] / pixel_size[0]
+			scaling_factor = real_size[0] / pixel_size[0]
 		else: # image is taller
 			# use height to calculate scaling factor
-			scaling_factor = realSize[1] / pixel_size[1]
+			scaling_factor = real_size[1] / pixel_size[1]
 
 		for segment in progressbar.progressbar(segments):
-			x1 = segment[0][0] * scaling_factor - rootCoordinate[0]
-			y1 = segment[0][1] * scaling_factor - rootCoordinate[1]
-			x2 = segment[1][0] * scaling_factor - rootCoordinate[0]
-			y2 = segment[1][1] * scaling_factor - rootCoordinate[1]
+			x1 = segment[0][0] * scaling_factor - root[0]
+			y1 = segment[0][1] * scaling_factor - root[1]
+			x2 = segment[1][0] * scaling_factor - root[0]
+			y2 = segment[1][1] * scaling_factor - root[1]
 
 			x1 = round(x1)
 			y1 = -round(y1)
@@ -57,18 +57,16 @@ class PixelToRealSpaceConverter:
 
 
 		if debug and shape is not None:
-
 			# window size multiplier
 			scale = 3
 
-			realShape = (realSize[0] * scale, realSize[1] * scale, shape[2])
+			realShape = (real_size[0] * scale, real_size[1] * scale, shape[2])
 			real_size_img = np.zeros(realShape, np.uint8)
 
 			for s in range(0, len(new_segments)):
-
 				# remove root offset
-				real_start = ((new_segments[s][0][0] + rootCoordinate[0]) * scale, (new_segments[s][0][1] + rootCoordinate[1]) * scale)
-				real_end = ((new_segments[s][1][0] + rootCoordinate[0]) * scale, (new_segments[s][1][1] + rootCoordinate[1]) * scale)
+				real_start = ((new_segments[s][0][0] + root[0]) * scale, (new_segments[s][0][1] + root[1]) * scale)
+				real_end = ((new_segments[s][1][0] + root[0]) * scale, (new_segments[s][1][1] + root[1]) * scale)
 				
 				cv.line(real_size_img, real_start, real_end, (255, 255, 255), 1, cv.LINE_AA)
 
