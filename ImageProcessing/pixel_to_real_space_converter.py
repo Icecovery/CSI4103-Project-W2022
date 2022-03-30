@@ -3,19 +3,23 @@ import cv2 as cv
 import progressbar
 
 class PixelToRealSpaceConverter:
+	'''
+		This class convert the coordinates in pixel length (px) to the real world length (mm).
 
-	# size are in (height, width) format
-	# coordinate are in (x, y) format
-	
-	# coordinate is relative to top left of the paper
-	# (0,0) ----> x
-	# |
-	# |
-	# V
-	# y
+		size are in (height, width) format
+		coordinate are in (x, y) format
 
-	# unit of pixel size is px
-	# unit of real size and root coordinate is mm
+		coordinate is relative to top left of the paper
+
+		(0,0) ----> x \\
+		| \\
+		| \\
+		V \\
+		y
+
+		unit of pixel size is px
+		unit of real size and root coordinate is mm
+	'''
 
 	def convert(self, segments, shape, realSize, rootCoordinate, debug=False):
 		if segments is None:
