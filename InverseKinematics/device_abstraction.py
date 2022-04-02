@@ -1,5 +1,5 @@
 # some lengths of the arms
-A_OFFSET = 38.69
-B_OFFSET = 0.0
+A_OFFSET = 45
+B_OFFSET = -10
 ARM_A_LEN = 160
 ARM_B_LEN = 150

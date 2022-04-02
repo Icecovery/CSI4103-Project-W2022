@@ -51,8 +51,8 @@ class Controller:
 		sleep(2)
 
 	def _set_servo_a(self, angle):
-		# servo A "0 degree": 7 deg
-		self.servo_a.angle = angle + 7
+		# servo A "0 degree": 0 deg
+		self.servo_a.angle = angle
 
 	def _set_servo_b(self, angle):
 		# servo B dead zone: 163
