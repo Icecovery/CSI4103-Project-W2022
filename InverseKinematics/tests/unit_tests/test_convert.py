@@ -65,7 +65,7 @@ def test_lines_to_instructions():
     instructions = lines_to_instructions(lines)
     print(instructions)
 
-    check_points = [(114.3833, 54.1676), (81.0229, 80.2849), (104.6658, 26.1144), (69.3833, 54.1676)]
+    check_points = [(120.6933, 44.1675), (89.7327, 61.1356), (92.3431, 21.26287), (75.6933, 44.1675)]
     checked = 0
     for inst in instructions:
         if type(inst) is tuple:
