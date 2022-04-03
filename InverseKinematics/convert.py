@@ -51,14 +51,14 @@ def lines_to_instructions(lines):
 	instructions = []
 
 	# in mm
-	minimumLineLength = 1  # TODO: make it configurable
-	maxSegmentDistance = 5  # TODO: make it configurable
-	minimumInterLineInterval = 2 # TODO: make it configurable
+	minimumLineLength = 1
+	maxSegmentDistance = 5
+	minimumInterLineInterval = 2
 
 	# delay between each interpolated segments in second
-	interLineSegmentDelay = 0.05  # TODO: make it configurable
+	interLineSegmentDelay = 0.05
 	# delay between each line in second
-	interLineDelay = 0.5  # TODO: make it configurable
+	interLineDelay = 0.5
 
 	lastEnd = (-999, -999)
 	

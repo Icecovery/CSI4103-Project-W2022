@@ -10,8 +10,6 @@ class Paper:
         '''
         self.height = height
         self.width = width
-        # TODO: Is x and y offsets based on the paper size? If so, no need to
-        # get x and offsets from parameters. Create a function to calculate it.
         self.x_offset = x_offset
         self.y_offset = y_offset
 
