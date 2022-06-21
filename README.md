@@ -1,8 +1,45 @@
-# Brachiograph Project
+# Pen Plotter Project
 
 A CSI4103 Project, University of Ottawa, Winter 2022.
 
-This project is still WIP.
+A two-degree-of-freedom robot shaped like a forearm. Any given picture can be drawn on paper using a pen by tracing the result of an edge detection algorithm.
+
+## Showcase
+
+### Image Processing Steps
+
+1. Gray Scale
+
+<img src="Media/1.jpeg" alt="Gray Scale" width="300"/>
+
+2. Gaussian Blur
+
+<img src="Media/2.jpeg" alt="Gaussian Blur" width="300"/>
+
+3. Canny Edge Detection
+
+<img src="Media/3.jpeg" alt="Canny Edge Detection" width="300"/>
+
+4. Hough Line Transform
+
+<img src="Media/4.jpeg" alt="Hough Line Transform" width="300"/>
+
+5. Spacial Partitioning for Optimization
+
+<img src="Media/5.jpeg" alt="Spacial Partitioning for Optimization" width="300"/>
+
+6. Optimization Result (Tool Path)
+
+<img src="Media/6.jpeg" alt="Optimization Result (Tool Path)" width="300"/>
+
+### Result Sample
+
+<img src="Media/7.png" alt="From" height="300"/>
+<img src="Media/8.jpeg" alt="Result" height="300"/>
+
+### Hardware Setup
+
+![Hardware Setup](Media/hardware.jpg)
 
 ## Team Members
 
